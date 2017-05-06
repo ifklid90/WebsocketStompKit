@@ -134,12 +134,8 @@
     [contents removeObjectAtIndex:0];
     for(NSString *line in contents) {
         if(hasHeaders) {
-            for (int i=0; i < [line length]; i++) {
-                unichar c = [line characterAtIndex:i];
-                if (c != '\x00') {
-                    [body appendString:[NSString stringWithFormat:@"%c", c]];
-                }
-            }
+            // copy from https://github.com/UladzimirBasko/WebsocketStompKit/commit/685089c7f8ebfcc39b9a839a456da63cd661aef2
+            [body appendString:[line stringByReplacingOccurrencesOfString:kNullChar withString:@""]];
         } else {
             if ([line isEqual:@""]) {
                 hasHeaders = YES;
