@@ -431,6 +431,9 @@ CFAbsoluteTime serverActivity;
                      headers:(NSDictionary *)headers
                         body:(NSString *)body {
     if (![self.socket isConnected]) {
+        // duct tape (костыль)
+        [self.delegate websocketDidDisconnect:nil];
+        NSLog(@"faild to send frame because socket is not connected");
         return;
     }
     STOMPFrame *frame = [[STOMPFrame alloc] initWithCommand:command headers:headers body:body];
